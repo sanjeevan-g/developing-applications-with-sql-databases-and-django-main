@@ -110,7 +110,7 @@ def enroll(request, course_id):
          # Collect the selected choices from exam form
          # Add each selected choice object to the submission object
          # Redirect to show_exam_result with the submission id
-def submit(request, course_id):
+def submit(request, course_id,lesson_id):
     user = request.user
     course = Course.objects.get(pk=course_id)
     lesson = Lesson.objects.get(pk=lesson_id)
@@ -139,7 +139,7 @@ def extract_answers(request):
         # Get the selected choice ids from the submission record
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
-def show_exam_result(request, course_id, submission_id):
+def show_exam_result(request, course_id, lesson_id ,submission_id):
 
     context = {}
 
@@ -154,10 +154,10 @@ def show_exam_result(request, course_id, submission_id):
     total_score = 0
 
     for question in questions:
-        full_score += question.grade
+        full_score += question.question_grade
 
         if question.is_get_score(selected_choices):
-            total_score += question.grade
+            total_score += question.question_grade
 
     final_score = round((total_score/full_score)*100)
 
